@@ -1,11 +1,14 @@
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.Arrays;
+import java.util.List;
 
 public class Customer {
     private String firstName, lastName, province, gender, bloodType;
     private LocalDate birthday;
 
     public Customer(String firstName, String lastName, String province, String gender,
-                    LocalDate birthday, String bloodtype) {
+                    String birthday, String bloodtype) {
         setFirstName(firstName);
         setLastName(lastName);
         setProvince(province);
@@ -47,7 +50,11 @@ public class Customer {
     }
 
     public void setProvince(String province) {
-        this.province = province;
+        List<String> provinces = Arrays.asList("ON", "QC", "AB", "NS", "BC", "SK", "NT", "NB", "MB", "NL");
+        if (provinces.contains(province))
+            this.province = province;
+        else
+            throw new IllegalArgumentException("province must be in the list: "+provinces);
     }
 
     public String getGender() {
@@ -66,14 +73,28 @@ public class Customer {
     }
 
     public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+        List<String> bloodTypes = Arrays.asList("B+", "O+", "AB+", "O-", "A+", "B-", "A-", "AB-");
+        if (bloodTypes.contains(bloodType))
+            this.bloodType = bloodType;
+        else
+            throw new IllegalArgumentException("blood type must be in the list: "+bloodTypes);
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+    public void setBirthday(String birthday) {
+        String[] birthdayArray = birthday.split("/");
+        int month = Integer.parseInt(birthdayArray[0]);
+        int day = Integer.parseInt(birthdayArray[1]);
+        int year = Integer.parseInt(birthdayArray[2]);
+
+        this.birthday = LocalDate.of(year, month, day);
+    }
+
+    public int getAge()
+    {
+        return Period.between(birthday, LocalDate.now()).getYears();
     }
 }
