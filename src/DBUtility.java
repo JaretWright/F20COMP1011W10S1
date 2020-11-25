@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class DBUtility {
     private static String user = "student";
@@ -39,4 +40,24 @@ public class DBUtility {
         return customers;
     }
 
+    public static TreeMap<String, Integer> getProvinceCounts()
+    {
+        TreeMap<String, Integer> provinceCountsMap = new TreeMap<>();
+        try (
+                Connection conn = DriverManager.getConnection(connString, user, password);
+                Statement statement = conn.createStatement();
+                ResultSet resultSet =  statement.executeQuery("SELECT province, COUNT(postalCode) " +
+                        "FROM customers GROUP BY province");
+        )
+        {
+            while (resultSet.next())
+            {
+                provinceCountsMap.put(resultSet.getString("province"), resultSet.getInt(2));
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return provinceCountsMap;
+    }
 }
