@@ -50,11 +50,16 @@ public class Customer {
     }
 
     public void setProvince(String province) {
-        List<String> provinces = Arrays.asList("ON", "QC", "AB", "NS", "BC", "SK", "NT", "NB", "MB", "NL");
+
+        List<String> provinces = Arrays.asList("ON", "QC", "AB", "NS","YT", "BC", "PE", "NU", "SK", "NT", "NB", "MB", "NL");
         if (provinces.contains(province))
             this.province = province;
         else
+        {
+            System.out.printf("'%s'",province);
             throw new IllegalArgumentException("province must be in the list: "+provinces);
+        }
+
     }
 
     public String getGender() {

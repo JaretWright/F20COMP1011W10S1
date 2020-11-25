@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class DBUtility {
     private static String user = "student";
     private static String password = "student";
-    private static String connString = "jdbc:mysql://localhost:3306";
+    private static String connString = "jdbc:mysql://localhost:3306/F20COMP1011";
 
     public static ArrayList<Customer> getCustomers()
     {
@@ -19,13 +19,16 @@ public class DBUtility {
                 ResultSet resultSet =  statement.executeQuery("SELECT * FROM customers");
                 )
         {
-            customers.add(new Customer(
-                    resultSet.getString("firstName"),
-                    resultSet.getString("lastName"),
-                    resultSet.getString("province"),
-                    resultSet.getString("gender"),
-                    resultSet.getString("birthday"),
-                    resultSet.getString("bloodType")));
+            while (resultSet.next())
+            {
+                customers.add(new Customer(
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("province"),
+                        resultSet.getString("gender"),
+                        resultSet.getString("birthday"),
+                        resultSet.getString("bloodType")));
+            }
         }catch (Exception e)
         {
             e.printStackTrace();
