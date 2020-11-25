@@ -13,6 +13,8 @@ public class DBUtility {
     {
         ArrayList<Customer> customers = new ArrayList<>();
 
+        //try with resources.  The objects in the () all have a close() method that
+        //will automatically be closed when the method finishes
         try (
                 Connection conn = DriverManager.getConnection(connString, user, password);
                 Statement statement = conn.createStatement();
